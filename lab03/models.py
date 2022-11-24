@@ -1,64 +1,11 @@
-import datetime
-from django.core.validators import RegexValidator
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from datetime import date
-
-
-MIESIAC_URODZENIA = (
-        ('1', 'styczeń'),
-        ('2', 'luty'),
-        ('3', 'marzec'),
-        ('4', 'kwiecień'),
-        ('5', 'maj'),
-        ('6', 'czerwiec'),
-        ('7', 'lipiec'),
-        ('8', 'sierpień'),
-        ('9', 'wrzesień'),
-        ('10', 'październik'),
-        ('11', 'listopad'),
-        ('12', 'grudzień'),
-    )
-
-
-class Druzyna(models.Model):
-    kraj = models.CharField(max_length=2, validators=[RegexValidator('^[A-Z]', 'Tylko duże litery')])
-    nazwa = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.nazwa + ' ('+self.kraj+')'
-
-
-class Osoba(models.Model):
-    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True)
-    imie = models.CharField(max_length=255, validators=[RegexValidator('^[a-zA-Z]+$', 'Tylko litery')])
-    nazwisko = models.CharField(max_length=255)
-    miesiac_urodzenia = models.CharField(max_length=255, choices=MIESIAC_URODZENIA, default=date.today().month)
-    miesiac_dodania = models.CharField(max_length=255, choices=MIESIAC_URODZENIA, default=date.today().month)
-    data_dodania = models.DateField(default=datetime.date.today)
-    kraj = models.ForeignKey('Druzyna', on_delete=models.CASCADE, null=True)
-
-    class Meta:
-        ordering = ['nazwisko']
-
-    def __str__(self):
-        return self.imie + ' ' + self.nazwisko
-
-
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-
-    def __str__(self):
-        return self.question_text
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.choice_text
 
 
 class AuthGroup(models.Model):
@@ -98,10 +45,12 @@ class AuthUser(models.Model):
     username = models.CharField(unique=True, max_length=150)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
+    addresEmail = models.CharField(max_length=254)
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
+    phone = models.IntegerField()
+    second_name = models.CharField(max_length=150)
 
     class Meta:
         managed = False
